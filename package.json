@@ -1,0 +1,22 @@
+{
+  "name": "sequelize-1",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "initialization.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node initialization.js",
+    "dev": "nodemon initialization.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7"
+  }
+}
