@@ -1,3 +1,4 @@
+import { Console } from "console";
 import Sequelize from "sequelize";
 const { DataTypes } = Sequelize;
 
@@ -32,10 +33,10 @@ const Student = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-        has_language_examination:{
-            tpye: DataTypes.TINYINT,
-            defaultValue: true
-        }
+        //has_language_examination:{
+          //  tpye: DataTypes.TINYINT,
+            //defaultValue: 2
+        //}
 	},
 	{
 		freezeTableName: true,
@@ -55,12 +56,12 @@ Student.sync()
 
     Student.sync({ alert: true })
 	.then(() => {
-		return User.bulkCreate([
-      { student_id: 1, name: "Jani", favourite_class, school_year: 2, has_language_examination },
-      { student_id: 2, name: "Jani", favourite_class, school_year: 2, has_language_examination },
-      { student_id: 3, name: "Jani", favourite_class, school_year: 2, has_language_examination },
-      { student_id: 4, name: "Jani", favourite_class, school_year: 2, has_language_examination },
-      { student_id: 5, name: "Jani", favourite_class, school_year: 2, has_language_examination },
+		return Student.bulkCreate([
+      { student_id: 1, name: "Jani", favourite_class, school_year: 2, favourite_class, has_language_examination },
+      { student_id: 2, name: "Jani", favourite_class, school_year: 2, favourite_class, has_language_examination },
+      { student_id: 3, name: "Jani", favourite_class, school_year: 2, favourite_class, has_language_examination },
+      { student_id: 4, name: "Jani", favourite_class, school_year: 2, favourite_class, has_language_examination },
+      { student_id: 5, name: "Jani", favourite_class, school_year: 2, favourite_class, has_language_examination },
     ],
   );
 	})
@@ -73,21 +74,17 @@ Student.sync()
 		console.log(`Error: ${err.message}`);
 	});
 
-    Student.sync({ alter: true })
+	Student.sync({ alter: true })
 	.then(() => {
-		return User.findAll({
-            attributes: [
-                "name"
-            ],
-			where: {
-				[Op.or]: { favourite_class, has_language_examination: true },
-			},
+		return Student.findAndCountAll({
+			where: { school_year: 2 },
+			raw: true,
 		});
 	})
 	.then((data) => {
-		data.forEach((element) => {
-			console.log(element.toJSON());
-		});
+		const { count, rows } = data;
+		console.log(count);
+    console.log(rows);
 	})
 	.catch((err) => {
 		console.log(`Error: ${err.message}`);
@@ -95,10 +92,10 @@ Student.sync()
 
     Student.sync({ alter: true })
 	.then(() => {
-		return User.findAll({
+		return Student.findAll({
 			attributes: [
 				"student_id",
-				[sequelize.fn("SUM", sequelize.col("student_id")), "sum_students"],
+				[sequelize.fn("COUNT", sequelize.col("student_id")), "sum_students"],
 			],
 			group: "school_year",
 		});
@@ -111,3 +108,5 @@ Student.sync()
 	.catch((err) => {
 		console.log(`Error: ${err.message}`);
 	});
+
+	
