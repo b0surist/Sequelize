@@ -108,5 +108,3 @@ Student.sync()
 	.catch((err) => {
 		console.log(`Error: ${err.message}`);
 	});
-
-	
